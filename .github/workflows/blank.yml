@@ -1,0 +1,25 @@
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+# Set up email parameters
+sender_email = "your_email@example.com"
+sender_password = "your_password"
+subject = "Subject Line of the Email"
+body = "Body of the Email"
+recipient_emails = ["recipient1@example.com", "recipient2@example.com"]
+
+# Create the email message
+message = MIMEMultipart()
+message['From'] = sender_email
+message['To'] = ", ".join(recipient_emails)
+message['Subject'] = subject
+message.attach(MIMEText(body, 'plain'))
+
+# Send the email message
+with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+    smtp.starttls()
+    smtp.login(sender_email, sender_password)
+    smtp.sendmail(sender_email, recipient_emails, message.as_string())
+    
+print("Emails sent successfully!")
